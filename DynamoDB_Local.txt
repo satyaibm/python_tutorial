@@ -1,0 +1,26 @@
+### Deploying DynamoDB Locally on Your Computer:
+https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.DownloadingAndRunning.html
+
+# Download DynamoDB Local
+https://s3.us-west-2.amazonaws.com/dynamodb-local/dynamodb_local_latest.zip
+
+# Create and use DynamoDB Local Folder
+md dynamodblocal
+cd dynamodblocal
+
+# Run DynamoDB Local in the directory it was downloaded to
+java -D"java.library.path=./DynamoDBLocal_lib" -jar DynamoDBLocal.jar
+
+# Open a new PowerShell / Terminal window
+
+# List Tables
+aws dynamodb list-tables --endpoint-url http://localhost:8000
+
+# Create Table
+aws dynamodb create-table --endpoint-url http://localhost:8000 --table-name Music --attribute-definitions AttributeName=Artist,AttributeType=S AttributeName=SongTitle,AttributeType=S --key-schema AttributeName=Artist,KeyType=HASH AttributeName=SongTitle,KeyType=RANGE --provisioned-throughput ReadCapacityUnits=10,WriteCapacityUnits=5 
+
+# List Tables
+aws dynamodb list-tables --endpoint-url http://localhost:8000
+
+# Delete Table
+aws dynamodb delete-table --table-name Music --endpoint-url http://localhost:8000
