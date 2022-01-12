@@ -1,7 +1,6 @@
 ### Python Repo: https://github.com/neiltucker/python_tutorial
-### INSERT DATA INTO DATABASE TABLE
 ### python -m pip install requests
-### pip install mysql-connector
+### pip install mysql-connector-python
 ### download customerdata.csv and orderdata.csv
 
 ### mysql -uroot -ppassword | mysql -uroot -p
@@ -35,6 +34,7 @@ cursor = conn_mysql.cursor()
 cursor.execute ( "CREATE DATABASE db1" )
 
 cursor.close()
+conn_mysql.commit()
 conn_mysql.close()
 
 
