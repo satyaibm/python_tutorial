@@ -71,11 +71,13 @@ query.head(10)
 
 cursor = connection.cursor()
 cursor.execute('SELECT TOP 100 * FROM customers')
+# cursor.fetchall()
 
 for i in cursor:
     print(i)
 
 cursor.close()
+connection.close()
 
 ===   
 
@@ -114,6 +116,9 @@ for row in customer_data.itertuples():
                     (row.CustomerID, row.FirstName, row.LastName, row.Phone, row.City, row.State, row.CustomerName, row.emails))
 
 mydb.commit()
+mydb.close()
+
+
 
 
 

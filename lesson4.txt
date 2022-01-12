@@ -30,8 +30,8 @@ customer_data = pd.read_csv('customerdata.csv')
 # orders_data = pd.read_csv('orderdata.csv')
 
 # Connect to MySQL server and create new database
-conn_mysql = mysql.connector.connect(host="localhost",user="root",password="password")
-cursor = newdb.cursor()
+conn_mysql = mysql.connector.connect(host="mysql20220112.ccfdrvwpyoj1.us-east-1.rds.amazonaws.com",user="sqllogin1",password="Password1")
+cursor = conn_mysql.cursor()
 cursor.execute ( "CREATE DATABASE db1" )
 
 cursor.close()
@@ -39,20 +39,30 @@ conn_mysql.close()
 
 
 # Connect to MySQL server database and create / update / query a table
-conn_db1 = mysql.connector.connect(
-	host="mysql20220111.ccfdrvwpyoj1.us-east-1.rds.amazonaws.com",
-	user="root",
-	password="password",
+conn_db = mysql.connector.connect(
+	host="mysql20220112.ccfdrvwpyoj1.us-east-1.rds.amazonaws.com",
+	user="sqllogin1",
+	password="Password1",
 	database="db1")
 
-cursor = conn_db1.cursor()
+cursor = conn_db.cursor()
 sql_create_table = "CREATE TABLE sample_customer(CustomerID VARCHAR(100), FirstName VARCHAR(100), LastName VARCHAR(100), Phone VARCHAR(100), Street VARCHAR(100), City VARCHAR(100), State VARCHAR(100))"
-sql_query_table = "SELECT 
+sql_query_table = "SELECT * FROM sample_customer;" 
 cursor.execute(sql_create_table)
-cursor.execute(sql_query_table) 
 
+for row in customer_data.itertuples():
+    print( (row.CustomerID, row.FirstName, row.LastName, row.Phone, row.Street, row.City, row.State))
+    cursor.execute("INSERT INTO sample_customer (CustomerID, FirstName, LastName, Phone, Street, City, State) VALUES (%s,%s,%s,%s,%s,%s,%s)", 
+                    (row.CustomerID, row.FirstName, row.LastName, row.Phone, row.Street, row.City, row.State))
+
+cursor.execute(sql_query_table) 
+cursor.fetchall()
 cursor.close()
-conn_mysql.close()
+conn_db.commit()
+conn_db.close()
+
+
+
 
 
 
