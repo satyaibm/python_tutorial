@@ -12,11 +12,13 @@ len(dir(list1))
 len(dir(array1))
 
 ===   
+dir(pd)
 orders = pd.read_csv('orderdata.csv')
 orders
 orders.head(20)
 orders.dtypes
 dir(orders)
+len(dir(orders))
 
 # Add new column
 orders["Total"] = orders["Quantity"] * orders["Price"] + orders["Freight"]
