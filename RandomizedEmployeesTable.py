@@ -1,6 +1,7 @@
 # This script will create an "Employee Table" with randomized employee names and hire dates and export to a CSV file.
 # Change the rows variable to control the number of rows exported.
 # pip install --upgrade names, pandas, pandas_datareader, scipy, matplotlib, pyodbc, pycountry, azure
+# pip freeze > requirements
 
 ### This looping operation will install the modules not already configured.
 import importlib, os, sys
