@@ -1,0 +1,122 @@
+### orderdata.csv file is included in the repository
+
+import pyodbc, numpy as np, pandas as pd, matplotlib.pyplot as plt
+
+list1 = [1,2,3,4,5,6,7,8,9,10]
+array1 = np.array(list1)
+
+dir(list1)
+dir(array1)
+
+len(dir(list1))
+len(dir(array1))
+
+===   
+orders = pd.read_csv('orderdata.csv')
+orders
+orders.head(20)
+orders.dtypes
+dir(orders)
+
+# Add new column
+orders["Total"] = orders["Quantity"] * orders["Price"] + orders["Freight"]
+orders.head(10)
+
+# Modify existing column
+orders["Freight"] = round(orders["Freight"] / 2)
+orders.head(10)
+orders["Total"] = orders["Quantity"] * orders["Price"] + orders["Freight"]
+orders.head(10)
+
+# Remove column
+orders = orders.drop(columns=['OrderDate'])
+orders.head(10)
+
+# Sort by column
+orders = orders.sort_values(by=['Total'], ascending=False)
+orders
+
+# Remove rows
+orders = orders.drop(range(5000,10000))
+orders
+
+# Save results
+orders.to_csv('orderdata_clean.csv')
+
+=== 
+import matplotlib.pyplot as plt
+
+# Test Plot for Sales Figures
+x = [2011,2012,2013,2014,2015,2016,2017,2018,2019,2020]
+y = [15000,18000,17000,17500,42000,32000,39000,89000,121000,289000]
+plt.title("Yearly Sales")
+plt.xlabel('Years')
+plt.ylabel('Sales')
+plt.plot(x,y)
+plt.show()
+plt.bar(x,y)
+plt.show()
+
+===   
+import pyodbc, pandas as pd
+
+connection = pyodbc.connect('Driver={SQL Server};' 
+                      'Server=DESKTOP-QNHJ5Q7\SQLEXPRESS;'
+                      'Database=db1;'
+                      'Trusted_Connection=yes;')
+
+query = pd.read_sql_query("""SELECT * FROM customers""", connection)
+type(query)
+query.head(10)
+
+cursor = connection.cursor()
+cursor.execute('SELECT TOP 100 * FROM customers')
+
+for i in cursor:
+    print(i)
+
+cursor.close()
+
+===   
+
+### READ_SQL_QUERY (PARAMETERS):
+import pyodbc, pandas as pd
+connection = pyodbc.connect('Driver={SQL Server};' 
+                      'Server=DESKTOP-QNHJ5Q7\SQLEXPRESS;'
+                      'Database=db1;'
+                      'Trusted_Connection=yes;')
+
+id = "BP47"
+select = "SELECT * FROM customers WHERE CustomerID = ?"
+df = pd.read_sql_query(select, connection, params = [id])
+
+
+===  
+
+### INSERT DATA INTO DATABASE TABLE
+
+customer_data = pd.read_csv('sample_customer.csv')
+print(customer_data)
+orders_data = pd.read_csv('sample_orders.csv')
+
+# Connect to MySQL connector.
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    password="password",
+    database="mypythonPRJ")
+
+mycursor = mydb.cursor()
+
+for row in customer_data.itertuples():
+    print( (row.CustomerID, row.FirstName, row.LastName, row.Phone, row.City, row.State, row.CustomerName, row.emails))
+    mycursor.execute("INSERT INTO sample_customer (CustomerID, FirstName, LastName, Phone, City, State, CustomerName, emails) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)", 
+                    (row.CustomerID, row.FirstName, row.LastName, row.Phone, row.City, row.State, row.CustomerName, row.emails))
+
+mydb.commit()
+
+
+
+
+
+
